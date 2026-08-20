@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="990" height="600" viewBox="0 0 990 600">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#191717"/><stop offset="1" stop-color="#0E0D0D"/></linearGradient>
+<radialGradient id="glow" cx="0.8" cy="0.1" r="1"><stop offset="0" stop-color="#F59E0B" stop-opacity="0.35"/><stop offset="0.6" stop-color="#FF5F00" stop-opacity="0.12"/><stop offset="1" stop-color="#0E0D0D" stop-opacity="0"/></radialGradient></defs>
+<rect width="990" height="600" fill="url(#g)"/><rect width="990" height="600" fill="url(#glow)"/>
+<g opacity="0.06" stroke="#ffffff"><path d="M0 150 H990 M0 300 H990 M0 450 H990 M247 0 V600 M495 0 V600 M742 0 V600"/></g>
+<rect x="60" y="60" width="420" height="26" rx="13" fill="#ffffff" opacity="0.07"/>
+<rect x="60" y="110" width="280" height="26" rx="13" fill="#ffffff" opacity="0.05"/>
+<rect x="60" y="420" width="200" height="52" rx="26" fill="#F59E0B" opacity="0.85"/>
+<rect x="280" y="420" width="200" height="52" rx="26" fill="#ffffff" opacity="0.08"/>
+<text x="60" y="280" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="800" fill="#ffffff">Golden Axe</text>
+<text x="60" y="330" font-family="Consolas, monospace" font-size="22" letter-spacing="6" fill="#F59E0B">COMPANY WEBSITE</text>
+</svg>
