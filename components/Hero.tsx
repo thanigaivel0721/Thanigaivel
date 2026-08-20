@@ -111,8 +111,7 @@ function Starfield() {
 
 /* ---------- hero heading + captions ----------
  * animated=true  -> intro animations (the visible layer)
- * animated=false -> static, final-state markup (the inverted cursor-reveal
- *                   layer) so we don't pay for a second animation tree
+ * animated=false -> static, final-state markup, no animation tree
  */
 function HeroContent({
   inverted = false,
@@ -311,81 +310,6 @@ function HeroContent({
   );
 }
 
-/* ---------- fluid cursor reveal (white inverse layer) ---------- */
-function FluidReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let mx = -500;
-    let my = -500;
-    let x = -500;
-    let y = -500;
-    let r = 0;
-    let target = 0;
-    let idleTimer: ReturnType<typeof setTimeout> | null = null;
-    let raf = 0;
-
-    const onMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      if (e.clientY < rect.top || e.clientY > rect.bottom) {
-        target = 0;
-        return;
-      }
-      mx = e.clientX - rect.left;
-      my = e.clientY - rect.top;
-      target = 110;
-      if (idleTimer) clearTimeout(idleTimer);
-      idleTimer = setTimeout(() => (target = 0), 700);
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-
-    const tick = () => {
-      raf = requestAnimationFrame(tick);
-      if (!heroVisible()) return;
-      // fully settled and invisible — nothing to update
-      if (r < 0.5 && target === 0) {
-        if (el.style.opacity !== "0") el.style.opacity = "0";
-        return;
-      }
-      x += (mx - x) * 0.14;
-      y += (my - y) * 0.14;
-      r += (target - r) * 0.09;
-      const rr = Math.max(0, r);
-      const mask = `radial-gradient(circle ${rr}px at ${x}px ${y}px, #000 0%, #000 62%, transparent 100%)`;
-      el.style.maskImage = mask;
-      el.style.webkitMaskImage = mask;
-      el.style.opacity = rr < 2 ? "0" : "1";
-    };
-    raf = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("mousemove", onMove);
-      if (idleTimer) clearTimeout(idleTimer);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      className="hidden md:flex absolute inset-0 z-20 items-center justify-center pointer-events-none"
-      style={{
-        backgroundColor: "#ffffff",
-        opacity: 0,
-        willChange: "opacity",
-        contain: "layout paint",
-      }}
-    >
-      <HeroContent inverted animated={false} />
-    </div>
-  );
-}
-
 /* ---------- planet horizon ---------- */
 function Horizon() {
   return (
@@ -492,7 +416,6 @@ export default function Hero() {
           <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
             <HeroContent />
           </div>
-          <FluidReveal />
         </div>
       </motion.div>
       <EdgeTab />
